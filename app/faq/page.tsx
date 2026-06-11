@@ -1,0 +1,287 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, MessageSquare, Download } from "lucide-react";
+import Link from "next/link";
+
+const faqCategories = [
+  {
+    id: "getting-started",
+    label: "Getting Started",
+    emoji: "🚀",
+    faqs: [
+      {
+        q: "Is ClassRoll free to use?",
+        a: "Yes. ClassRoll is free to download and use. The free tier includes up to 5 classes, unlimited students, unlimited attendance sessions, and 1 PDF/CSV export per day. You can watch a short rewarded ad to unlock additional exports on any given day.",
+      },
+      {
+        q: "Do I need to create an account?",
+        a: "No. ClassRoll requires no sign-up, no email, and no account of any kind. You open the app and start using it immediately. This is intentional — no friction on day one.",
+      },
+      {
+        q: "Does ClassRoll work without internet?",
+        a: "Yes, completely. ClassRoll is designed offline-first. All data is stored locally on your device using SQLite. No internet connection is ever required for any core feature.",
+      },
+      {
+        q: "How do I create my first class?",
+        a: "When you first open the app, you'll see a Welcome screen with a single button: 'Create My First Class'. Tap it, enter your class name, and you're in. Adding students and taking attendance takes just a few more taps.",
+      },
+    ],
+  },
+  {
+    id: "attendance",
+    label: "Taking Attendance",
+    emoji: "✅",
+    faqs: [
+      {
+        q: "How does photo attendance work?",
+        a: "Your entire class appears as a grid of photo tiles. When you start a session, everyone is marked Present by default. You only tap the exceptions — once for Late, twice for Absent, three times to reset to Present. This 'attendance by exception' model means marking a full class takes seconds, not minutes.",
+      },
+      {
+        q: "What if a student doesn't have a photo?",
+        a: "Students without photos display a color-coded initials avatar. Each student gets a deterministic color based on their name, so the avatar is always consistent. Photos are optional and can be added at any time.",
+      },
+      {
+        q: "Can I undo a tap I made by mistake?",
+        a: "Yes. There's an Undo button on the attendance screen that reverses the last tap action. Teachers tap fast — we designed Undo to be always visible and accessible.",
+      },
+      {
+        q: "Can I manually set a specific status without tapping through the cycle?",
+        a: "Yes. Long-press any student tile during a session to get a context menu where you can select Present, Late, Absent, or Reset directly.",
+      },
+    ],
+  },
+  {
+    id: "data",
+    label: "Data & Privacy",
+    emoji: "🔒",
+    faqs: [
+      {
+        q: "Where is my data stored?",
+        a: "All data — classes, students, photos, and attendance records — is stored locally on your device only. Nothing is uploaded to any server, cloud service, or third party. Your data never leaves your device.",
+      },
+      {
+        q: "Does ClassRoll collect student data?",
+        a: "ClassRoll stores student names and optional photos locally on your device. This data is never transmitted anywhere. The only data sent externally is anonymous app usage analytics via Firebase (no PII) and crash reports via Sentry (PII scrubbed).",
+      },
+      {
+        q: "How do I back up my data?",
+        a: "Go to Settings → Backup & Restore → Create Backup. This exports all your classes, students, attendance history, and seating layouts to a single .classroll file on your device. You can share it to cloud storage, email it to yourself, or transfer it via USB.",
+      },
+      {
+        q: "Can I restore my data on a new phone?",
+        a: "Yes. Transfer your .classroll backup file to the new device, open ClassRoll, go to Settings → Backup & Restore → Restore from Backup, and select the file. All your data will be restored exactly as it was.",
+      },
+    ],
+  },
+  {
+    id: "export",
+    label: "Export & Reports",
+    emoji: "📄",
+    faqs: [
+      {
+        q: "How do I export an attendance report?",
+        a: "After saving a session, tap 'Export' on the Session Summary screen. Choose PDF or CSV. The file is generated instantly and the share sheet opens — you can email it, send via WhatsApp, save to Files, or print directly.",
+      },
+      {
+        q: "Why can I only export once per day?",
+        a: "The free tier allows 1 export per day to keep the app sustainable with ads. If you need more exports on the same day, watch a short rewarded ad to unlock 1 additional export. The daily limit resets at midnight.",
+      },
+      {
+        q: "What does the PDF report contain?",
+        a: "The PDF includes: class name, date, session type, a full list of students with their attendance status, and a summary section with present/late/absent counts. It also includes a 'Generated by ClassRoll' footer.",
+      },
+      {
+        q: "Can I import a student list from a spreadsheet?",
+        a: "Yes. Go to a class → Students → tap the upload icon in the header. Select a CSV file with a 'name' column. ClassRoll will import all names, skip duplicates, and show a count. Photos must be added separately after import.",
+      },
+    ],
+  },
+  {
+    id: "features",
+    label: "App Features",
+    emoji: "⚙️",
+    faqs: [
+      {
+        q: "What is the seating builder?",
+        a: "The seating builder lets you drag student photo tiles into any seat position on a grid. It matches your real classroom layout. You can save multiple named layouts per class — useful for regular seating, exam seating, and substitute teacher handoffs.",
+      },
+      {
+        q: "What do the class reminder notifications do?",
+        a: "You can set weekly reminders for each class. Configure the days of the week, the class start time, and a lead-time offset (5, 10, or 15 minutes before class). The app sends a push notification to remind you to take attendance.",
+      },
+      {
+        q: "What is the 100% attendance confetti?",
+        a: "When you save a session where every student is marked Present, a full-screen confetti animation fires automatically. It's a small celebration — teachers sometimes show it to their class as a fun shared moment.",
+      },
+      {
+        q: "How does the daily motivational quote work?",
+        a: "Once per day when you open the app, a motivational quote appears in a card modal. Quotes are fetched from a Google Sheet we maintain (cached offline so it works without internet). You can share any quote or dismiss it.",
+      },
+    ],
+  },
+  {
+    id: "support",
+    label: "Support",
+    emoji: "💬",
+    faqs: [
+      {
+        q: "How do I report a bug?",
+        a: "Email support@nexusappworks.com with a description of the issue, your device model, and Android/iOS version. Screenshots or screen recordings are very helpful. We typically respond within 1–2 business days.",
+      },
+      {
+        q: "How do I suggest a new feature?",
+        a: "Use the Feedback screen in the app (Settings → Feedback) or email support@nexusappworks.com with 'Feature Request' in the subject. You can also post in our Facebook community group where other teachers can upvote ideas.",
+      },
+      {
+        q: "Is there a Pro version?",
+        a: "Pro and Premium tiers are coming in Phase 2. They will unlock unlimited classes, unlimited exports (no daily limit), no watermark on PDFs, and cloud backup. The free tier will always remain available.",
+      },
+    ],
+  },
+];
+
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-[#F0EAF8] last:border-0">
+      <button
+        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+        onClick={() => setOpen(!open)}
+      >
+        <span className="font-semibold text-[#1A1040] text-sm sm:text-base">{q}</span>
+        <ChevronDown
+          size={18}
+          className={`flex-shrink-0 text-[#6D28D9] transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <p className="pb-5 text-[#6B5FA6] text-sm leading-relaxed">{a}</p>
+      )}
+    </div>
+  );
+}
+
+export default function FAQPage() {
+  const [activeCategory, setActiveCategory] = useState("getting-started");
+
+  const current = faqCategories.find((c) => c.id === activeCategory);
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="gradient-hero pt-32 pb-24 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-80 h-80 bg-violet-400/10 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block px-4 py-1 bg-white/20 text-white text-sm font-semibold rounded-full mb-6">
+            FAQ
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            Frequently Asked{" "}
+            <span className="text-violet-200">Questions</span>
+          </h1>
+          <p className="text-violet-100 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+            Find quick answers to common questions about ClassRoll. Can&apos;t
+            find what you need?{" "}
+            <Link href="/contact" className="text-white underline hover:text-violet-200">
+              Contact us.
+            </Link>
+          </p>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 60L1440 60L1440 20C1200 60 720 0 0 20L0 60Z" fill="#F9F7FF" />
+          </svg>
+        </div>
+      </section>
+
+      <section className="py-16 bg-[#F9F7FF]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-4 gap-8">
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-2xl border border-[#DDD0F5] p-4 sticky top-24">
+                <p className="text-xs font-bold text-[#6B5FA6] uppercase tracking-wider mb-3 px-2">
+                  Categories
+                </p>
+                <nav className="space-y-1">
+                  {faqCategories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
+                        activeCategory === cat.id
+                          ? "bg-violet-100 text-[#6D28D9]"
+                          : "text-[#6B5FA6] hover:bg-[#F9F7FF] hover:text-[#1A1040]"
+                      }`}
+                    >
+                      <span>{cat.emoji}</span>
+                      {cat.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            </div>
+
+            {/* FAQ Content */}
+            <div className="lg:col-span-3">
+              {current && (
+                <div className="bg-white rounded-2xl border border-[#DDD0F5] p-6 sm:p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="text-3xl">{current.emoji}</span>
+                    <h2 className="text-xl font-bold text-[#1A1040]">{current.label}</h2>
+                  </div>
+                  <div>
+                    {current.faqs.map((faq) => (
+                      <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Still have questions */}
+              <div className="mt-6 bg-gradient-to-br from-[#6D28D9] to-[#4C1D95] rounded-2xl p-6 text-white flex flex-col sm:flex-row items-center gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                  <MessageSquare size={22} />
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <h3 className="font-bold mb-1">Still have questions?</h3>
+                  <p className="text-violet-200 text-sm">
+                    Our team is happy to help. Usually responds in 1–2 business days.
+                  </p>
+                </div>
+                <Link
+                  href="/contact"
+                  className="flex-shrink-0 px-5 py-2.5 bg-white text-[#6D28D9] font-bold rounded-xl hover:bg-violet-50 transition-all text-sm whitespace-nowrap"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Download CTA */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl font-bold text-[#1A1040] mb-3">Ready to try it out?</h2>
+          <p className="text-[#6B5FA6] mb-6">Free, offline, and takes under 60 seconds to set up.</p>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#6D28D9] text-white font-bold px-6 py-3 rounded-full hover:bg-[#5B21B6] transition-all shadow-md"
+            >
+              <Download size={16} /> Download Free
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
