@@ -4,8 +4,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nexusappworks.com"),
+  metadataBase: new URL("https://classroll.nexusappworks.com"),
   title: {
     default: "ClassRoll – Offline Photo Attendance for Teachers",
     template: "%s | ClassRoll",
@@ -39,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nexusappworks.com/classroll",
+    url: "https://classroll.nexusappworks.com",
     siteName: "ClassRoll",
     title: "ClassRoll – Offline Photo Attendance for Teachers",
     description:
@@ -61,8 +59,8 @@ export const metadata: Metadata = {
     images: ["/icon.png"],
   },
   icons: {
-    icon: `${basePath}/favicon.png`,
-    apple: `${basePath}/icon.png`,
+    icon: "/favicon.png",
+    apple: "/icon.png",
   },
 };
 
