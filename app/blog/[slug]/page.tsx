@@ -210,7 +210,7 @@ ClassRoll's backup system is designed to be simple and reliable. Here's everythi
 
 ## How Backup Works
 
-ClassRoll stores all your data locally on your device — rosters, photos, session history, and settings. The backup feature packages everything into a single `.classroll` file that you can save anywhere: Google Drive, iCloud, email, WhatsApp, a USB drive.
+ClassRoll stores all your data locally on your device — rosters, photos, session history, and settings. The backup feature packages everything into a single .classroll file that you can save anywhere: Google Drive, iCloud, email, WhatsApp, a USB drive.
 
 No cloud account required. No subscription. The backup file is yours.
 
@@ -230,7 +230,7 @@ The backup includes everything: all classes, all student photos, all session his
 1. Install ClassRoll on the new (or reinstalled) device.
 2. Open the app and go to **Settings → Backup & Restore**.
 3. Tap **Restore from Backup**.
-4. Locate your `.classroll` file.
+4. Locate your .classroll file.
 5. Confirm the restore.
 
 The restore process takes about 30 seconds. All your classes, students, photos, and history will be exactly as you left them.
@@ -238,7 +238,7 @@ The restore process takes about 30 seconds. All your classes, students, photos, 
 ## Tips for a Bulletproof Backup Strategy
 
 - **Save to cloud storage, not just your phone.** A backup file on the same phone that you're trying to recover from isn't useful.
-- **Name your backup files with the date.** `classroll-backup-2026-04-15.classroll` is easier to manage than just `backup.classroll`.
+- **Name your backup files with the date.** "classroll-backup-2026-04-15.classroll" is easier to manage than just "backup.classroll".
 - **Test your backup.** Once a term, try restoring on a second device (or the same device after a reinstall) to confirm the backup is valid.
 
 ## What Isn't Included in the Backup
