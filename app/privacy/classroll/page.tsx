@@ -246,6 +246,107 @@ Email subject: "ClassRoll Privacy Request"`,
                 </div>
               ))}
             </div>
+
+            {/* Data Deletion Section — linked from Play Store */}
+            <div
+              id="delete"
+              className="mt-10 border-2 border-red-200 rounded-2xl overflow-hidden"
+            >
+              <div className="bg-red-50 px-6 py-4 border-b border-red-200">
+                <h2 className="text-xl font-bold text-red-700">Data Deletion — ClassRoll</h2>
+                <p className="text-sm text-red-600 mt-1">ClassRoll by Nexus App Works</p>
+              </div>
+
+              <div className="px-6 py-6 space-y-6 text-sm text-[#1A1040]">
+                <p className="text-[#6B5FA6] leading-relaxed">
+                  ClassRoll stores all data locally on your device only. No account is required
+                  and no personal data is stored on our servers.
+                </p>
+
+                {/* Steps */}
+                <div>
+                  <h3 className="font-bold text-[#1A1040] mb-3">
+                    How to permanently delete all your data
+                  </h3>
+                  <ol className="space-y-2 text-[#6B5FA6] leading-relaxed list-none pl-0">
+                    {[
+                      "Open the ClassRoll app",
+                      'Tap the Settings tab (bottom navigation)',
+                      'Scroll down to "Danger Zone"',
+                      'Tap "Delete All Data"',
+                      "Confirm when prompted",
+                    ].map((step, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold text-xs flex items-center justify-center mt-0.5">
+                          {i + 1}
+                        </span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                {/* What gets deleted */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                    <h3 className="font-bold text-green-800 mb-2">What gets deleted</h3>
+                    <ul className="space-y-1.5 text-green-700 text-sm">
+                      {[
+                        "All classes and class settings",
+                        "All student names and photos",
+                        "All attendance sessions and records",
+                        "All seating layouts",
+                        "All app preferences and backup files",
+                      ].map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <span className="mt-0.5">✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                    <h3 className="font-bold text-amber-800 mb-2">What is NOT deleted</h3>
+                    <ul className="space-y-3 text-amber-700 text-sm">
+                      <li className="flex items-start gap-2">
+                        <span className="mt-0.5">•</span>
+                        <span>
+                          Anonymous analytics events already sent to Firebase
+                          <span className="block text-amber-600 text-xs mt-0.5">
+                            Not linked to your identity — cannot be individually deleted
+                          </span>
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="mt-0.5">•</span>
+                        <span>
+                          Anonymous crash reports already sent to Sentry
+                          <span className="block text-amber-600 text-xs mt-0.5">
+                            Not linked to your identity — cannot be individually deleted
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <p className="text-[#6B5FA6] leading-relaxed">
+                  Since all data is stored on your device, uninstalling the app also permanently
+                  removes all ClassRoll data.
+                </p>
+
+                <p className="text-[#6B5FA6]">
+                  For further assistance, contact:{" "}
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="text-violet-600 underline hover:text-violet-800"
+                  >
+                    {contactEmail}
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
