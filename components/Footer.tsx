@@ -42,6 +42,7 @@ const footerLinks = {
   Legal: [
     { label: "Privacy Policy", href: "/privacy/classroll" },
     { label: "Terms of Service", href: "/terms/classroll" },
+    { label: "Do Not Sell or Share My Personal Information", href: "/privacy/classroll#do-not-sell" },
   ],
   Download: [
     {
@@ -160,9 +161,17 @@ export default function Footer() {
           <p className="text-violet-300 text-sm">
             © {new Date().getFullYear()} NexusAppWorks. All rights reserved.
           </p>
-          <p className="text-violet-300 text-sm flex items-center gap-1">
-            Made with <Heart size={13} className="text-pink-400 fill-pink-400" /> for teachers everywhere
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <Link
+              href="/privacy/classroll#do-not-sell"
+              className="text-violet-300 hover:text-white transition-colors text-xs underline underline-offset-2"
+            >
+              Do Not Sell or Share My Personal Information
+            </Link>
+            <p className="text-violet-300 text-sm flex items-center gap-1">
+              Made with <Heart size={13} className="text-pink-400 fill-pink-400" /> for teachers everywhere
+            </p>
+          </div>
         </div>
       </div>
     </footer>
